@@ -20,7 +20,7 @@ def lalala(message):
             if(message.text in date[i]):
                 bot.send_message(message.chat.id, req.weather_str[i])
     else:
-        bot.send_message(message.chat.id, send_mess)
+        bot.send_message(message.chat.id, "напиши сюда числа в формате ХХХХ-ХХ-ХХ, например 2020-07-24")
 
 
 bot.polling(none_stop=True)	
