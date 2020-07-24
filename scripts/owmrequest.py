@@ -56,7 +56,7 @@ def request_forecast(city_id):
         print('city:', data['city']['name'], data['city']['country'])
         for i in data['list']:
             weather.append(str(i['dt_txt'][:16]) +" " + '\n' + "Влажность " + str(i['main']['humidity']) + "%" + '\n'
-            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" +str(i['main']['temp']) + " " + '\n'
+            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" +str(round(i['main']['temp'])) + " " + '\n'
             +"Скорость ветра " + str(i['wind']['speed']) + " " + "м/c"
             + " " + str(get_wind_direction(i['wind']['deg'])) + '\n' + str(i['weather'][0]['description']) + '\n' + "Вероятность осадков " + str(i['pop']) + "%")
             
