@@ -20,7 +20,7 @@ def lalala(message):
             if(message.text in date[i]):
                 bot.send_message(message.chat.id, req.weather_str[i])
     else:
-        bot.send_message(message.chat.id, 'Прости друг я тебя не понимаю')
+        bot.send_message(message.chat.id, send_mess)
 
 
 bot.polling(none_stop=True)	
