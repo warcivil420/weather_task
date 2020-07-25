@@ -46,6 +46,12 @@ def request_current_weather(city_id):
         pass
 
 # Прогноз
+def TelegramInformation(city_id=468902):
+    res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
+                           params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+    data = res.json()
+    return 'city: '+ data['city']['name'] + "\n" + data['city']['country']
+
 def request_forecast(city_id):
     weather = []
     weatherStr = ''
