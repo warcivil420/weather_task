@@ -77,9 +77,9 @@ def try_weaher(message, weather):
             return i
 
 
-#city_id for SPb
+#city_id for Yaroslavl
 city_id = 468902
-appid = "dca30b363934f02b817e916cb61ab3f3"
+appid = "dca30b363934f02b817e916cb61ab3f3"   # OpenWeatherMap API  
 
 weather_str = request_forecast(city_id)
 print("Все работает")
