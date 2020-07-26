@@ -1,20 +1,20 @@
 import requests
 
 def get_string_telegram(JsonFile):  # декоратор возврата строки из апи функции
-    def StrForTelegram(*args, **kwargs):
+    def api_string_for_telegram(*args, **kwargs):
         weather = []
         date = JsonFile()
         for i in date['list']:
             weather.append(str(i['dt_txt'][:16]) +" " + '\n' + "Влажность " + str(i['main']['humidity']) + "%" + '\n'
-            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" +str(round(i['main']['temp'])) + " " + '\n'
+            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" + str(round(i['main']['temp'])) + " " + '\n'
             +"Скорость ветра " + str(i['wind']['speed']) + " " + "м/c"
             + " " + str(get_wind_direction(i['wind']['deg'])) + '\n'
             + str(i['weather'][0]['description']) + '\n' + "Вероятность осадков "
             + str(i['pop']) + "%")
         return weather
-    return StrForTelegram
+    return api_string_for_telegram
 
-
+# Определяет с какой стороны летит ветер
 def get_wind_direction(deg):
     l = ['С ','СВ',' В','ЮВ','Ю ','ЮЗ',' З','СЗ']
     for i in range(0,8):
@@ -67,6 +67,7 @@ def TelegramInformation(city_id=468902):
     data = res.json()
     return 'city: '+ data['city']['name'] + "\n" + data['city']['country']
 
+# получение json в функции и обработка строки json в декораторе
 @get_string_telegram
 def request_forecast(city_id=468902):
     try:
