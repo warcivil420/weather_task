@@ -14,10 +14,10 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def text(message):
-    if message.text in date: 
+    if message.text in date:
         for received_date in range(len(date)):
             if(message.text.replace(' ', '') == date[received_date]):
                 bot.send_message(message.chat.id, req.weather_str[received_date])
     else:
         bot.send_message(message.chat.id, f"напиши сюда числа в формате ХХХХ-ХХ-ХХ, например 2020-07-24 я могу  показать прогноз погоды с {date[0]} до {str(date[len(date)-1])}")
-bot.polling(none_stop=True)	
+bot.polling(none_stop=True)

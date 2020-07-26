@@ -1,5 +1,20 @@
 import requests
 
+def get_string_telegram(JsonFile):  # декоратор возврата строки из апи функции
+    def StrForTelegram(*args, **kwargs):
+        weather = []
+        date = JsonFile()
+        for i in date['list']:
+            weather.append(str(i['dt_txt'][:16]) +" " + '\n' + "Влажность " + str(i['main']['humidity']) + "%" + '\n'
+            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" +str(round(i['main']['temp'])) + " " + '\n'
+            +"Скорость ветра " + str(i['wind']['speed']) + " " + "м/c"
+            + " " + str(get_wind_direction(i['wind']['deg'])) + '\n'
+            + str(i['weather'][0]['description']) + '\n' + "Вероятность осадков "
+            + str(i['pop']) + "%")
+        return weather
+    return StrForTelegram
+
+
 def get_wind_direction(deg):
     l = ['С ','СВ',' В','ЮВ','Ю ','ЮЗ',' З','СЗ']
     for i in range(0,8):
@@ -31,7 +46,7 @@ def get_city_id(s_city_name):
     return city_id
 
 # Запрос текущей погоды (вывод в консоль для дебага)
-def request_current_weather(city_id):
+def request_current_weather(city_id=468902):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/weather",
                      params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
@@ -52,27 +67,21 @@ def TelegramInformation(city_id=468902):
     data = res.json()
     return 'city: '+ data['city']['name'] + "\n" + data['city']['country']
 
-def request_forecast(city_id):
-    weather = []
+@get_string_telegram
+def request_forecast(city_id=468902):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
                            params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
         data = res.json()
         print('city:', data['city']['name'], data['city']['country'])
-        for i in data['list']:
-            weather.append(str(i['dt_txt'][:16]) +" " + '\n' + "Влажность " + str(i['main']['humidity']) + "%" + '\n'
-            + "Давление " +str(i['main']['pressure']) + " мм рт. ст. " + '\n' + "Температура " + "+" +str(round(i['main']['temp'])) + " " + '\n'
-            +"Скорость ветра " + str(i['wind']['speed']) + " " + "м/c"
-            + " " + str(get_wind_direction(i['wind']['deg'])) + '\n' + str(i['weather'][0]['description']) + '\n' + "Вероятность осадков " + str(i['pop']) + "%")
-            
+        return data
     except Exception as e:
         print("Exception (forecast):", e)
         pass
-    return weather
 
 #city_id for Yaroslavl
 city_id = 468902
-appid = "dca30b363934f02b817e916cb61ab3f3"   # OpenWeatherMap API  
+appid = "dca30b363934f02b817e916cb61ab3f3"   # OpenWeatherMap API
 
 weather_str = request_forecast(city_id)
 print("Все работает")
