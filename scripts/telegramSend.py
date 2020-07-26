@@ -14,11 +14,11 @@ def start(message):
 
 
 @bot.message_handler(content_types=['text'])
-def lalala(message):
+def text(message):
     if message.text in date: 
-        for i in range(len(date)-1):
-            if(message.text in date[i]):
-                bot.send_message(message.chat.id, req.weather_str[i])
+        for received_date in range(len(date)-1):
+            if(message.text.replace(' ', '') == date[received_date]):
+                bot.send_message(message.chat.id, req.weather_str[received_date])
     else:
         bot.send_message(message.chat.id, "напиши сюда числа в формате ХХХХ-ХХ-ХХ, например 2020-07-24")
 bot.polling(none_stop=True)	
