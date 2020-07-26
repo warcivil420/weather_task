@@ -13,7 +13,7 @@ def get_wind_direction(deg):
             break
     return res
 
-# Проверка наличия в базе информации о нужном населенном пункте
+# Проверка наличия в базе информации о нужном населенном пункте (опциональное использование)
 def get_city_id(s_city_name):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/find",
@@ -30,7 +30,7 @@ def get_city_id(s_city_name):
     assert isinstance(city_id, int)
     return city_id
 
-# Запрос текущей погоды
+# Запрос текущей погоды (вывод в консоль для дебага)
 def request_current_weather(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/weather",
@@ -54,7 +54,6 @@ def TelegramInformation(city_id=468902):
 
 def request_forecast(city_id):
     weather = []
-    weatherStr = ''
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
                            params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
@@ -70,12 +69,6 @@ def request_forecast(city_id):
         print("Exception (forecast):", e)
         pass
     return weather
-
-def try_weaher(message, weather):
-    for i in weather:
-        if message in i:
-            return i
-
 
 #city_id for Yaroslavl
 city_id = 468902
