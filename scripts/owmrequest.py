@@ -15,7 +15,7 @@ def get_string_telegram(JsonFile):  # декоратор возврата стр
     return api_string_for_telegram
 
 # Определяет с какой стороны летит ветер
-def get_wind_direction(deg):
+def get_wind_direction(deg) -> str:
     l = ['С ','СВ',' В','ЮВ','Ю ','ЮЗ',' З','СЗ']
     for i in range(0,8):
         step = 45.
@@ -29,7 +29,7 @@ def get_wind_direction(deg):
     return res
 
 # Проверка наличия в базе информации о нужном населенном пункте (опциональное использование)
-def get_city_id(s_city_name):
+def get_city_id(s_city_name) -> int:
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/find",
                      params={'q': s_city_name, 'type': 'like', 'units': 'metric', 'lang': 'ru', 'APPID': appid})
@@ -46,7 +46,7 @@ def get_city_id(s_city_name):
     return city_id
 
 # Запрос текущей погоды (вывод в консоль для дебага)
-def request_current_weather(city_id=468902):
+def request_current_weather(city_id)-> None:
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/weather",
                      params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
@@ -61,7 +61,7 @@ def request_current_weather(city_id=468902):
         pass
 
 # Прогноз
-def TelegramInformation(city_id=468902):
+def TelegramInformation(city_id=468902) -> str:
     res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
                            params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
     data = res.json()
@@ -69,16 +69,16 @@ def TelegramInformation(city_id=468902):
 
 # получение json в функции и обработка строки json в декораторе
 @get_string_telegram
-def request_forecast(city_id=468902):
+def request_forecast(city_id=468902) -> str:
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
                            params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
         data = res.json()
         print('city:', data['city']['name'], data['city']['country'])
-        return data
     except Exception as e:
         print("Exception (forecast):", e)
-        pass
+        data = None
+    return data
 
 #city_id for Yaroslavl
 city_id = 468902
